@@ -38,6 +38,8 @@ apt install apt-transport-https ca-certificates
 
 openssl list -providers | grep -i quic  # 检查是否包含 QUIC 提供者
 
+DEBIAN_VER=$(cat /etc/os-release |  grep 'VERSION=' | awk -F\" {'print $2'} | awk {'print $1'})
+
 apt remove -y --purge haproxy*
 
 apt autoremove -y
@@ -70,7 +72,7 @@ make install
 
 cd
 
-git clone https://github.com/haproxy/haproxy.git
+git clone https://git.haproxy.org/git/haproxy.git
 
 cd haproxy
 
@@ -78,8 +80,14 @@ export SSL_INC="/usr/local/openssl-3.5.1/include"
 
 export SSL_LIB="/usr/local/openssl-3.5.1/lib64"
 
+make clean
+
 make -j$(nproc) TARGET=linux-glibc USE_OPENSSL=1 USE_QUIC=1 USE_PCRE2=1 USE_PCRE2_JIT=1 USE_LUA=1 SSL_INC="$SSL_INC" SSL_LIB="$SSL_LIB" CC="gcc"
 
 make install
+
+useradd -r -s /sbin/nologin haproxy
+
+setcap cap_net_bind_service=+ep /usr/local/sbin/haproxy
 
 exit 0
