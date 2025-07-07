@@ -40,8 +40,6 @@ apt install apt-transport-https ca-certificates
 
 openssl list -providers | grep -i quic  # 检查是否包含 QUIC 提供者
 
-DEBIAN_VER=$(cat /etc/os-release |  grep 'VERSION=' | awk -F\" {'print $2'} | awk {'print $1'})
-
 apt remove -y --purge haproxy*
 
 apt autoremove -y
