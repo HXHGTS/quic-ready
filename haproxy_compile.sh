@@ -12,6 +12,8 @@ tar -zxvf openssl-3.5.1.tar.gz
 
 cd openssl-3.5.1
 
+make clean
+
 ./config --prefix=/usr/local/openssl-3.5.1 enable-quic shared zlib-dynamic
 
 make -j$(nproc)
@@ -50,6 +52,8 @@ tar -xjf pcre2-10.45.tar.bz2
 
 cd pcre2-10.45
 
+make clean
+
 ./configure
 
 make -j$(nproc)
@@ -65,6 +69,8 @@ wget -O lua-5.4.8.tar.gz https://www.lua.org/ftp/lua-5.4.8.tar.gz
 tar -xvzf lua-5.4.8.tar.gz
 
 cd lua-5.4.8
+
+make clean
 
 make linux
 
